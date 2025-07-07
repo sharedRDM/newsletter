@@ -1,0 +1,15 @@
+{
+  "name": "shared-rdm-newsletter",
+  "version": "1.0.0",
+  "description": "Template system for Shared RDM Newsletter",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build-simple.js",
+    "dev": "node build-simple.js && open index.html"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": ["newsletter", "template", "rdm"],
+  "author": "Shared RDM Team",
+  "license": "MIT"
+} 
