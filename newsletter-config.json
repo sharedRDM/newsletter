@@ -50,13 +50,12 @@
       },
       "bibliothekskongress": {
         "title": "Shared RDM @ Bibliothekskongress",
-        "description": "The 2nd Austrian Library Congress took place in March in Vienna. Shared RDM was presented within this event. The presentation focussed on the one hand on giving an overview of the project. The second half of the presentation featured current communities and activities. The resources of this presentation can be viewed here:"
+        "description": "The 2nd Austrian Library Congress took place in March in Vienna. Shared RDM was presented within this event. The presentation focussed on the one hand on giving an overview of the project. The second half of the presentation featured current communities and activities."
       }
     }
   },
   "links": {
     "webinarreihe": "https://repository.tugraz.at/communities/rdm-austria/records",
-    "bibliothekskongress": "https://opus4.kobv.de/opus4-bib-info/frontdoor/index/index/docId/19409",
     "cheatSheets": "https://phaidra.univie.ac.at/detail/o:2122994",
     "youtube": "https://www.youtube.com/@rdm-austria",
     "elnSurvey": "https://repository.tugraz.at/records/4863b-kjt77",
