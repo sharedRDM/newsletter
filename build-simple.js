@@ -33,7 +33,7 @@ function buildNewsletter() {
     
     // Main link replacements
     html = html.replace(/https:\/\/repository\.tugraz\.at\/communities\/rdm-austria-2025\/records\?q=&l=list&p=1&s=10&sort=newest/g, config.links.webinarreihe);
-    html = html.replace(/https:\/\/forschungsdaten\.at\/en\/projektmeeting-shared-rdm-at-tu-graz\//g, config.links.bibliothekskongress);
+    html = html.replace(/https:\/\/opus4\.kobv\.de\/opus4-bib-info\/frontdoor\/index\/index\/docId\/19409\s*/g, config.links.bibliothekskongress);
     
     // Use Cases section
     html = html.replace(/Use Cases Development/g, config.content.useCases.title);
@@ -80,6 +80,7 @@ function buildNewsletter() {
     html = html.replace(/https:\/\/repository\.tugraz\.at\/records\/4863b-kjt77/g, config.links.elnSurvey);
     html = html.replace(/https:\/\/www\.tuwien\.at\/en\/research\/rti-support\/research-data\/center-for-rdm\/news\/news\/inveniordm-community-workshop-2025/g, config.links.invenioWorkshop);
     html = html.replace(/https:\/\/www\.tuwien\.at\/en\/all-news\/news\/the-damap-team-at-the-idcc25/g, config.links.damapNews);
+    html = html.replace(/https:\/\/phaidra\.univie\.ac\.at\/detail\/o:2122994/g, config.links.cheatSheets);
     
     // Contact information
     html = html.replace(/contact\.sharedrdm@mlist\.tugraz\.at/g, config.contact.email);
