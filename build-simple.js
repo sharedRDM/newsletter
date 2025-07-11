@@ -1,103 +1,163 @@
-const fs = require('fs');
+const fs = require("fs");
+const path = require("path");
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function mustGet(obj, dottedPath) {
+  const parts = dottedPath.split(".");
+  let cur = obj;
+  for (const p of parts) {
+    if (cur && Object.prototype.hasOwnProperty.call(cur, p)) cur = cur[p];
+    else throw new Error(`Missing required field: ${dottedPath}`);
+  }
+  return cur;
+}
+
+function replaceAll(html, token, value) {
+  const safe = escapeHtml(value);
+  return html.split(token).join(safe);
+}
+
+function renderUseCases(items) {
+  if (!Array.isArray(items)) return "";
+  const left = [];
+  const right = [];
+  items.forEach((item, idx) => {
+    const bucket = idx % 2 === 0 ? left : right;
+    const title = escapeHtml(item.title || "");
+    const url = escapeHtml(item.url || "");
+    bucket.push(
+      `<div style="margin-bottom: 25px;">
+         <a href="${url}" target="_blank" style="font: Bold 14px Arial, Helvetica, sans-serif; color: #878787; text-decoration: none;">
+           <strong>${title}</strong>
+         </a>
+         <div style="font: 12px Arial, Helvetica, sans-serif; color: #878787; margin-top: 5px;">
+           <a href="${url}" target="_blank" style="color: #e74c3c; text-decoration: none;">READ MORE</a>
+         </div>
+       </div>`
+    );
+  });
+
+  return `<table width="100%" border="0" cellpadding="15" cellspacing="0">
+    <tr>
+      <td width="50%" align="left" valign="top">${left.join("\n")}</td>
+      <td width="50%" align="left" valign="top">${right.join("\n")}</td>
+    </tr>
+  </table>`;
+}
+
+function renderWebinarTopics(topics) {
+  if (!Array.isArray(topics) || topics.length === 0) return "";
+  return `<ul style="margin-top: 10px; padding-left: 20px; color: #686666;">
+    ${topics.map((t) => `<li>${escapeHtml(t)}</li>`).join("\n")}
+  </ul>`;
+}
+
+function renderWebinarImages(images) {
+  if (!Array.isArray(images) || images.length === 0) return "";
+  return `<table width="100%" border="0" cellpadding="0" cellspacing="0">
+    ${images
+      .map(
+        (src, idx) => `<tr>
+          <td align="center" valign="top">
+            <img src="${escapeHtml(src)}" width="190" height="110" alt="Webinar ${idx + 1}" style="display: block; border-radius: 4px;"/>
+          </td>
+        </tr>
+        <tr><td height="15" align="center" valign="top">&nbsp;</td></tr>`
+      )
+      .join("\n")}
+  </table>`;
+}
 
 function buildNewsletter() {
   try {
-    console.log('Building newsletter...');
-    
-    // Read the configuration file
-    const config = JSON.parse(fs.readFileSync('newsletter-config.json', 'utf8'));
-    console.log('Configuration loaded');
-    
-    // Read the template HTML (now based on your perfect 2025 structure)
-    let html = fs.readFileSync('index-original.html', 'utf8');
-    console.log('Template HTML loaded');
-    
-    // Simple replacements - only basic content, no structural changes
-    console.log('Applying basic replacements...');
-    
-    // Newsletter title and subtitle
-    html = html.replace(/Newsletter Shared RDM #3/g, config.newsletter.title);
-    html = html.replace(/Welcome back to the Shared RDM Newsletter! This is the third edition of the newsletter\. Have a look what happened between January 2025 and now within our project\./g, config.newsletter.subtitle);
-    
-    // Project URLs
-    html = html.replace(/https:\/\/forschungsdaten\.at\/en\/sharedrdm\//g, config.newsletter.projectPageUrl);
-    html = html.replace(/https:\/\/forschungsdaten\.at\//g, config.newsletter.clusterUrl);
-    
-    // Year references
-    html = html.replace(/2025/g, config.newsletter.year);
-    
-    // Logo and image paths
-    html = html.replace(/images\/SharedRDM-orange\.png/g, config.images.sharedRdmLogo);
-    html = html.replace(/images\/cluster-logo\.png/g, config.images.clusterLogo);
-    html = html.replace(/images\/bmbwf\.png/g, config.images.bmbwfLogo);
-    
-    // Main link replacements
-    html = html.replace(/https:\/\/repository\.tugraz\.at\/communities\/rdm-austria-2025\/records\?q=&l=list&p=1&s=10&sort=newest/g, config.links.webinarreihe);
-    html = html.replace(/https:\/\/opus4\.kobv\.de\/opus4-bib-info\/frontdoor\/index\/index\/docId\/19409\s*/g, config.links.bibliothekskongress);
-    
-    // Use Cases section
-    html = html.replace(/Use Cases Development/g, config.content.useCases.title);
-    html = html.replace(/The Use Cases developed within the Shared RDM project are developing further\. In seven testimonials our partners described, how they experienced the collaboration and what they have learned from it\. See what our partners have to say:/g, config.content.useCases.description);
-    
-    // Communities section
-    html = html.replace(/News from within our communities/g, config.content.communities.sectionTitle);
-    html = html.replace(/Vibrant communities play a decisive role in the further development and dissemination of RDM software solutions and practices\.\s*Through regular developer meetings, knowledge transfer between national organisations, orientation towards international developments, mutual support and openness towards external parties and new participants, FDM support solutions can be established in line with demand and across the board\./g, config.content.communities.description);
-    
-    // ELN Community
-    html = html.replace(/ELN Community/g, config.content.communities.eln.title);
-    html = html.replace(/The Austrian ELN community conducted a user survey to better understand the needs and preferences of eLabFTW users[\s\S]*?Overall, the report highlights both strengths and areas for improvement in the platform\./g, config.content.communities.eln.description);
-    
-    // InvenioRDM Community
-    html = html.replace(/InvenioRDM(?!\s*Community)/g, config.content.communities.invenio.title);
-    html = html.replace(/Members of the TU Graz and TU Wien joined the InvenioRDM partner workshop[\s\S]*?We are happy to announce that the next InvenioRDM Partner Workshop will take place in Graz in 2026!/g, config.content.communities.invenio.description);
-    
-    // DAMAP Community
-    html = html.replace(/DAMAP/g, config.content.communities.damap.title);
-    html = html.replace(/The DAMAP team participated in the 19th International Digital Curation Conference[\s\S]*?IDCC remains a key event for connecting with professionals and advancing best practices in data management\./g, config.content.communities.damap.description);
-    
-    // Dissemination section
-    html = html.replace(/Dissemination Activities/g, config.content.dissemination.sectionTitle);
-    
-    // Webinar series
-    html = html.replace(/Webinar series "Research Data Management in Austria"/g, config.content.dissemination.webinars.title);
-    html = html.replace(/In the last half year, three webinars were conducted[\s\S]*?The topics were:/g, config.content.dissemination.webinars.description);
-    
-    // Webinar topics
-    html = html.replace(/Austrian Micro Data Center in der Praxis \(1st of April 2025\)/g, config.content.dissemination.webinars.topics[0]);
-    html = html.replace(/Austrian NeuroCloud \(14th of April 2025\)/g, config.content.dissemination.webinars.topics[1]);
-    html = html.replace(/Accessibility of PDF documents \(10th of June 2025\)/g, config.content.dissemination.webinars.topics[2]);
-    
-    // Cheat Sheets
-    html = html.replace(/Cheat Sheet Series/g, config.content.dissemination.cheatSheets.title);
-    html = html.replace(/The Cheat Sheet Series was already introduced in our last newsletter[\s\S]*?Make use of this resource and use and share them as you like!/g, config.content.dissemination.cheatSheets.description);
-    
-    // Bibliothekskongress
-    html = html.replace(/Shared RDM @ Bibliothekskongress/g, config.content.dissemination.bibliothekskongress.title);
-    html = html.replace(/The 2nd Austrian Library Congress took place in March in Vienna[\s\S]*?The resources of this presentation can be viewed here:/g, config.content.dissemination.bibliothekskongress.description);
-    
-    // Additional links
-    html = html.replace(/https:\/\/www\.youtube\.com\/@rdm-austria/g, config.links.youtube);
-    html = html.replace(/https:\/\/repository\.tugraz\.at\/records\/4863b-kjt77/g, config.links.elnSurvey);
-    html = html.replace(/https:\/\/www\.tuwien\.at\/en\/research\/rti-support\/research-data\/center-for-rdm\/news\/news\/inveniordm-community-workshop-2025/g, config.links.invenioWorkshop);
-    html = html.replace(/https:\/\/www\.tuwien\.at\/en\/all-news\/news\/the-damap-team-at-the-idcc25/g, config.links.damapNews);
-    html = html.replace(/https:\/\/phaidra\.univie\.ac\.at\/detail\/o:2122994/g, config.links.cheatSheets);
-    
-    // Contact information
-    html = html.replace(/contact\.sharedrdm@mlist\.tugraz\.at/g, config.contact.email);
-    html = html.replace(/Brockmanngasse 84/g, config.contact.address.street);
-    html = html.replace(/8010 Graz/g, config.contact.address.city);
-    html = html.replace(/https:\/\/mlist\.tugraz\.at\/mailman\/listinfo\/news\.sharedrdm/g, config.contact.subscribe);
-    
-    // Write the built HTML
-    fs.writeFileSync('index.html', html);
-    console.log(' Newsletter built successfully!');
-    console.log(' Output: index.html');
-    
+    console.log("Building newsletter...");
+
+    // Load content (editable by non-devs)
+    // eslint-disable-next-line global-require, import/no-dynamic-require
+    const dataPath = path.resolve(__dirname, "newsletter-data.js");
+    delete require.cache[dataPath];
+    const data = require(dataPath);
+
+    // Read template
+    const templatePath = path.resolve(__dirname, "newsletter-template.html");
+    let html = fs.readFileSync(templatePath, "utf8");
+
+    // Basic placeholders
+    html = replaceAll(html, "{{newsletter.title}}", mustGet(data, "newsletter.title"));
+    html = replaceAll(html, "{{newsletter.subtitle}}", mustGet(data, "newsletter.subtitle"));
+    html = replaceAll(html, "{{newsletter.year}}", mustGet(data, "newsletter.year"));
+    html = replaceAll(html, "{{newsletter.projectPageUrl}}", mustGet(data, "newsletter.projectPageUrl"));
+    html = replaceAll(html, "{{newsletter.clusterUrl}}", mustGet(data, "newsletter.clusterUrl"));
+    html = replaceAll(html, "{{newsletter.projectDescription}}", mustGet(data, "newsletter.projectDescription"));
+
+    // Images
+    html = replaceAll(html, "{{images.sharedRdmLogo}}", mustGet(data, "images.sharedRdmLogo"));
+    html = replaceAll(html, "{{images.clusterLogo}}", mustGet(data, "images.clusterLogo"));
+    html = replaceAll(html, "{{images.bmbwfLogo}}", mustGet(data, "images.bmbwfLogo"));
+    html = replaceAll(html, "{{images.cheatSheetsImage}}", mustGet(data, "images.cheatSheetsImage"));
+    html = replaceAll(html, "{{images.bibliothekskongressImage}}", mustGet(data, "images.bibliothekskongressImage"));
+
+    // Sections: Use Cases
+    html = replaceAll(html, "{{sections.useCases.title}}", mustGet(data, "sections.useCases.title"));
+    html = replaceAll(html, "{{sections.useCases.description}}", mustGet(data, "sections.useCases.description"));
+    html = html.split("{{{sections.useCases.itemsHtml}}}").join(renderUseCases(mustGet(data, "sections.useCases.items")));
+
+    // Sections: Communities
+    html = replaceAll(html, "{{sections.communities.sectionTitle}}", mustGet(data, "sections.communities.sectionTitle"));
+    html = replaceAll(html, "{{sections.communities.description}}", mustGet(data, "sections.communities.description"));
+
+    html = replaceAll(html, "{{sections.communities.eln.title}}", mustGet(data, "sections.communities.eln.title"));
+    html = replaceAll(html, "{{sections.communities.eln.description}}", mustGet(data, "sections.communities.eln.description"));
+    html = replaceAll(html, "{{sections.communities.eln.readMoreUrl}}", mustGet(data, "sections.communities.eln.readMoreUrl"));
+
+    html = replaceAll(html, "{{sections.communities.invenio.title}}", mustGet(data, "sections.communities.invenio.title"));
+    html = replaceAll(html, "{{sections.communities.invenio.description}}", mustGet(data, "sections.communities.invenio.description"));
+    html = replaceAll(html, "{{sections.communities.invenio.readMoreUrl}}", mustGet(data, "sections.communities.invenio.readMoreUrl"));
+
+    html = replaceAll(html, "{{sections.communities.damap.title}}", mustGet(data, "sections.communities.damap.title"));
+    html = replaceAll(html, "{{sections.communities.damap.description}}", mustGet(data, "sections.communities.damap.description"));
+    html = replaceAll(html, "{{sections.communities.damap.readMoreUrl}}", mustGet(data, "sections.communities.damap.readMoreUrl"));
+
+    // Sections: Dissemination
+    html = replaceAll(html, "{{sections.dissemination.sectionTitle}}", mustGet(data, "sections.dissemination.sectionTitle"));
+
+    html = replaceAll(html, "{{sections.dissemination.webinars.title}}", mustGet(data, "sections.dissemination.webinars.title"));
+    html = replaceAll(html, "{{sections.dissemination.webinars.description}}", mustGet(data, "sections.dissemination.webinars.description"));
+    html = replaceAll(html, "{{sections.dissemination.webinars.repositoryUrl}}", mustGet(data, "sections.dissemination.webinars.repositoryUrl"));
+    html = replaceAll(html, "{{sections.dissemination.webinars.youtubeUrl}}", mustGet(data, "sections.dissemination.webinars.youtubeUrl"));
+    html = html.split("{{{sections.dissemination.webinars.topicsHtml}}}").join(renderWebinarTopics(mustGet(data, "sections.dissemination.webinars.topics")));
+    html = html.split("{{{images.webinarImagesHtml}}}").join(renderWebinarImages(mustGet(data, "images.webinarImages")));
+
+    html = replaceAll(html, "{{sections.dissemination.cheatSheets.title}}", mustGet(data, "sections.dissemination.cheatSheets.title"));
+    html = replaceAll(html, "{{sections.dissemination.cheatSheets.description}}", mustGet(data, "sections.dissemination.cheatSheets.description"));
+    html = replaceAll(html, "{{sections.dissemination.cheatSheets.url}}", mustGet(data, "sections.dissemination.cheatSheets.url"));
+
+    html = replaceAll(html, "{{sections.dissemination.bibliothekskongress.title}}", mustGet(data, "sections.dissemination.bibliothekskongress.title"));
+    html = replaceAll(html, "{{sections.dissemination.bibliothekskongress.description}}", mustGet(data, "sections.dissemination.bibliothekskongress.description"));
+    html = replaceAll(html, "{{sections.dissemination.bibliothekskongress.url}}", mustGet(data, "sections.dissemination.bibliothekskongress.url"));
+
+    // Contact
+    html = replaceAll(html, "{{contact.email}}", mustGet(data, "contact.email"));
+    html = replaceAll(html, "{{contact.address.street}}", mustGet(data, "contact.address.street"));
+    html = replaceAll(html, "{{contact.address.city}}", mustGet(data, "contact.address.city"));
+    html = replaceAll(html, "{{contact.subscribeUrl}}", mustGet(data, "contact.subscribeUrl"));
+
+    // Write output
+    fs.writeFileSync(path.resolve(__dirname, "index.html"), html);
+    console.log("Newsletter built successfully!");
+    console.log("Output: index.html");
   } catch (error) {
-    console.error(' Error building newsletter:', error.message);
+    console.error("Error building newsletter:", error.message);
     process.exit(1);
   }
 }
 
-// Run the build
-buildNewsletter(); 
+buildNewsletter();

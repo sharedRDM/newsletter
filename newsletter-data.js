@@ -1,0 +1,118 @@
+/**
+ * NEWSLETTER CONTENT (edit this file only)
+ *
+ */
+
+module.exports = {
+  newsletter: {
+    title: "Newsletter Shared RDM #3",
+    subtitle:
+      "Welcome back to the Shared RDM Newsletter! This is the third edition of the newsletter. Have a look what happened between January 2025 and now within our project.",
+    year: "2025",
+    projectPageUrl: "https://forschungsdaten.at/en/sharedrdm/",
+    clusterUrl: "https://forschungsdaten.at/",
+    projectDescription:
+      "Shared RDM Services & Infrastructure is a BMBWF-funded project devoted to establishing a framework for providing Research Data Management (RDM) tools and infrastructures as shared services for Austrian universities and research institutions. This initiative aims to foster resource efficiency, interoperability, standardization, and alignment with international initiatives such as EOSC. Ultimately, it increases Austria's visibility and reliability in the reuse of research results.",
+  },
+
+  images: {
+    sharedRdmLogo: "images/SharedRDM-orange.png",
+    clusterLogo: "images/cluster-logo.png",
+    bmbwfLogo: "images/bmbwf.png",
+
+    // Dissemination images (right-side column)
+    webinarImages: ["images/2025/Webinar 1.png", "images/2025/Webinar 2.png", "images/2025/Webinar 3.png"],
+
+    // Dissemination images (left-side big images)
+    cheatSheetsImage: "images/2025/Cheat-sheets.png",
+    bibliothekskongressImage: "images/2025/Bibliothekskongress.png",
+  },
+
+  sections: {
+    useCases: {
+      title: "Use Cases Development",
+      description:
+        "The Use Cases developed within the Shared RDM project are developing further. In seven testimonials our partners described, how they experienced the collaboration and what they have learned from it. See what our partners have to say:",
+
+      // Each entry becomes a “READ MORE” link.
+      // Tip: keep titles short (1 line).
+      items: [
+        { title: "eLabFTW at VetMed University", url: "https://repository.tugraz.at/records/a1rf8-50f71" },
+        { title: "eLabFTW at JKU Linz", url: "https://repository.tugraz.at/records/5bh4f-gf056" },
+        { title: "eLabFTW at Uni Innsbruck", url: "https://repository.tugraz.at/records/873p5-av102" },
+        { title: "DAMAP at JKU Linz", url: "https://repository.tugraz.at/records/2n3kw-4yy20" },
+        { title: "DAMAP at Medical University Graz", url: "https://repository.tugraz.at/records/yxgg1-8r202" },
+        { title: "InvenioRDM at Medical University Graz", url: "https://repository.tugraz.at/records/rxaby-qxs94" },
+        { title: "InvenioRDM at BOKU University", url: "https://repository.tugraz.at/records/q46wr-cx344" },
+      ],
+    },
+
+    communities: {
+      sectionTitle: "News from within our communities",
+      description:
+        "Vibrant communities play a decisive role in the further development and dissemination of RDM software solutions and practices. Through regular developer meetings, knowledge transfer between national organisations, orientation towards international developments, mutual support and openness towards external parties and new participants, FDM support solutions can be established in line with demand and across the board.",
+
+      eln: {
+        title: "ELN Community",
+        description:
+          "The Austrian ELN community conducted a user survey to better understand the needs and preferences of eLabFTW users. This summary report presents the results, combining quantitative ratings and open-ended feedback. The survey design drew on prior work at Med Uni Graz, insights from a 2016 study, and feedback from research data management staff. Respondents evaluated requested features and shared their experiences, suggestions, and concerns. The findings aim to guide the future development of eLabFTW based on real user input. Overall, the report highlights both strengths and areas for improvement in the platform.",
+        readMoreUrl: "https://repository.tugraz.at/records/4863b-kjt77",
+      },
+
+      invenio: {
+        title: "InvenioRDM",
+        description:
+          "Members of the TU Graz and TU Wien joined the InvenioRDM partner workshop in Hamburg. It was a dynamic and collaborative event that drives the future of InvenioRDM. During the workshop, critical technical and strategic topics were discussed – from type hinting in Python and metadata extraction to improving the accessibility and usability of deposit forms. Our team will also participate in the implementation of type hinting and share the results with others. We were honoured that our contributions were highlighted in the final discussions, especially our curation workflow, which was cited as a source of inspiration by the community itself. We are happy to announce that the next InvenioRDM Partner Workshop will take place in Graz in 2026!",
+        readMoreUrl: "https://www.tuwien.at/en/all-news/news/inveniordm-community-workshop-2025",
+      },
+
+      damap: {
+        title: "DAMAP",
+        description:
+          "The DAMAP team participated in the 19th International Digital Curation Conference (IDCC) in The Hague from February 17–19, 2025. Over three days, they engaged in workshops, poster sessions, and lightning talks. Day one featured two workshops on community building around data practices and the lifecycle of data management plans, with a lightning talk by Valentin Futterer on how DAMAP supports data stewards. On day two, Andrés Tabima and Laura Thaci presented posters on DAMAP and OSTrails, sparking engaging discussions, particularly around machine-actionable DMPs. The final day offered insights through a series of lightning talks from across the data curation field. IDCC remains a key event for connecting with professionals and advancing best practices in data management.",
+        readMoreUrl: "https://www.tuwien.at/en/all-news/news/the-damap-team-at-the-idcc25",
+      },
+    },
+
+    dissemination: {
+      sectionTitle: "Dissemination Activities",
+
+      webinars: {
+        title: 'Webinar series "Research Data Management in Austria"',
+        description:
+          "In the last half year, three webinars were conducted. Each of them was not only very informative, but also well visited by a broad audience from inside and outside of Austria. All previous episodes can be found on YouTube. The topics were:",
+        repositoryUrl: "https://repository.tugraz.at/communities/rdm-austria/records",
+        youtubeUrl: "https://www.youtube.com/@rdm-austria",
+        topics: [
+          "Austrian Micro Data Center in der Praxis (1st of April 2025)",
+          "Austrian NeuroCloud (14th of April 2025)",
+          "Accessibility of PDF documents (10th of June 2025)",
+        ],
+      },
+
+      cheatSheets: {
+        title: "Cheat Sheet Series",
+        description:
+          "The Cheat Sheet Series was already introduced in our last newsletter. Now we would like to shift your focus on the still growing collection, that can be found on Phaidra. Cheat Sheets can be printed out and distributed but can also be made available digitally. They are available both in German and English. A free Public Domain Mark 1.0 licence has been selected so that the Cheat Sheets can be reused and edited as easily as possible. Make use of this resource and use and share them as you like!",
+        url: "https://phaidra.univie.ac.at/detail/o:2122994",
+      },
+
+      bibliothekskongress: {
+        title: "Shared RDM @ Bibliothekskongress",
+        description:
+          "The 2nd Austrian Library Congress took place in March in Vienna. Shared RDM was presented within this event. The presentation focussed on the one hand on giving an overview of the project. The second half of the presentation featured current communities and activities. The resources of this presentation can be viewed here:",
+        url: "https://opus4.kobv.de/opus4-bib-info/frontdoor/index/index/docId/19409",
+      },
+    },
+  },
+
+  contact: {
+    email: "contact.sharedrdm@mlist.tugraz.at",
+    address: {
+      street: "Brockmanngasse 84",
+      city: "8010 Graz",
+    },
+    subscribeUrl: "https://mlist.tugraz.at/mailman/listinfo/news.sharedrdm",
+  },
+};
+
