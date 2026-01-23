@@ -5,103 +5,144 @@
 
 module.exports = {
   newsletter: {
-    title: "Newsletter Shared RDM #3",
+    title: "Newsletter Shared RDM #4",
     subtitle:
-      "Welcome back to the Shared RDM Newsletter! This is the third edition of the newsletter. Have a look what happened between January 2025 and now within our project.",
-    year: "2025",
-    projectPageUrl: "https://forschungsdaten.at/en/sharedrdm/",
-    clusterUrl: "https://forschungsdaten.at/",
+      "Welcome back to the Shared RDM Newsletter! This is the fourth edition of the newsletter. Have a look what happened between July 2025 and now within our project.",
+    year: "2026",
+    projectPageUrl: "https://forschung-daten.at/en/shared-rdm/",
+    clusterUrl: "https://forschung-daten.at/en/",
     projectDescription:
       "Shared RDM Services & Infrastructure is a BMBWF-funded project devoted to establishing a framework for providing Research Data Management (RDM) tools and infrastructures as shared services for Austrian universities and research institutions. This initiative aims to foster resource efficiency, interoperability, standardization, and alignment with international initiatives such as EOSC. Ultimately, it increases Austria's visibility and reliability in the reuse of research results.",
   },
 
   images: {
     sharedRdmLogo: "images/SharedRDM-orange.png",
-    clusterLogo: "images/cluster-logo.png",
+    clusterLogo: "images/logo-cluster-neu.jpg",
     bmbwfLogo: "images/bmbwf.png",
-
-    // Dissemination images (right-side column)
-    webinarImages: ["images/2025/Webinar 1.png", "images/2025/Webinar 2.png", "images/2025/Webinar 3.png"],
-
-    // Dissemination images (left-side big images)
+    fairaiImage: "images/2026/fair_ai_symposium.jpg",
+    webinarImages: ["images/2026/webinar1.png", "images/2026/webinar2.jpg"],
+    opensciencefestivalImage: "images/2026/opensciencefestival.jpg",
+    websideImage: "images/2026/webside.png",
+    cordiImage: "images/2026/cordi.png",
+    projectmeetingImage: "images/2026/projectmeeting.jpg",
     cheatSheetsImage: "images/2025/Cheat-sheets.png",
     bibliothekskongressImage: "images/2025/Bibliothekskongress.png",
   },
 
   sections: {
-    useCases: {
-      title: "Use Cases Development",
-      description:
-        "The Use Cases developed within the Shared RDM project are developing further. In seven testimonials our partners described, how they experienced the collaboration and what they have learned from it. See what our partners have to say:",
-
-      // Each entry becomes a “READ MORE” link.
-      // Tip: keep titles short (1 line).
-      items: [
-        { title: "eLabFTW at VetMed University", url: "https://repository.tugraz.at/records/a1rf8-50f71" },
-        { title: "eLabFTW at JKU Linz", url: "https://repository.tugraz.at/records/5bh4f-gf056" },
-        { title: "eLabFTW at Uni Innsbruck", url: "https://repository.tugraz.at/records/873p5-av102" },
-        { title: "DAMAP at JKU Linz", url: "https://repository.tugraz.at/records/2n3kw-4yy20" },
-        { title: "DAMAP at Medical University Graz", url: "https://repository.tugraz.at/records/yxgg1-8r202" },
-        { title: "InvenioRDM at Medical University Graz", url: "https://repository.tugraz.at/records/rxaby-qxs94" },
-        { title: "InvenioRDM at BOKU University", url: "https://repository.tugraz.at/records/q46wr-cx344" },
-      ],
+    symposium: {
+      title:
+        "FAIR & AI Symposium Highlights:\nA Community Shaping the Future of Trustworthy Research Data and AI",
+      description: `The FAIR & AI Symposium, organised under Cluster Forschung+Daten, brought together a vibrant community of researchers, infrastructure specialists, data stewards, and policy experts to explore one of today's most pressing intersections: the evolving relationship between FAIR research data and artificial intelligence (AI).
+Held in the magnificent Aula of TU Graz' historic main building, the rich program sparked lively discussions on how data management and AI development can advance together in a responsible and sustainable way.
+Key themes and insights: FAIR and AI complement each other, but privacy, transparency, and bias remain key challenges
+Throughout the symposium, participants reflected on the pivotal question:
+Are the FAIR Guiding Principles still sufficient for data stewardship, in an era where AI increasingly guides how we create, manage, and reuse data?
+The sessions made clear that while FAIR remains a strong foundation, AI brings both powerful opportunities and new responsibilities. Automated metadata generation, semantic enrichment, and improved data discoverability were highlighted as significant enablers for FAIRification. At the same time, speakers emphasized that challenges such as transparency, bias detection, accountability, and ethical decision-making cannot be delegated to machines alone.`,
+      readMoreUrl:
+        "https://forschung-daten.at/en/shared-rdm/news-events/details/fair-ai-symposium-tu-graz/",
     },
 
     communities: {
       sectionTitle: "News from within our communities",
       description:
-        "Vibrant communities play a decisive role in the further development and dissemination of RDM software solutions and practices. Through regular developer meetings, knowledge transfer between national organisations, orientation towards international developments, mutual support and openness towards external parties and new participants, FDM support solutions can be established in line with demand and across the board.",
+        "Vibrant communities play a decisive role in the further development and dissemination of RDM software solutions and practices. Through regular developer meetings, knowledge transfer between national organisations, orientation towards international developments, mutual support and openness towards external parties and new participants, RDM support solutions can be established in line with demand and across the board.",
 
       eln: {
-        title: "ELN Community",
-        description:
-          "The Austrian ELN community conducted a user survey to better understand the needs and preferences of eLabFTW users. This summary report presents the results, combining quantitative ratings and open-ended feedback. The survey design drew on prior work at Med Uni Graz, insights from a 2016 study, and feedback from research data management staff. Respondents evaluated requested features and shared their experiences, suggestions, and concerns. The findings aim to guide the future development of eLabFTW based on real user input. Overall, the report highlights both strengths and areas for improvement in the platform.",
-        readMoreUrl: "https://repository.tugraz.at/records/4863b-kjt77",
+        title: "Electronic Lab Notebook Community",
+        description: `Austrian ELN Community Meeting at JKU Linz
+On 22 October 2025, the Austrian ELN Community met at JKU Linz to discuss the current application scenarios for the ELN software 'eLabFTW' at the participating universities. The meeting also discussed cooperation with the French company Deltablot to enable optimal further development.
+In addition, inter-university training opportunities were discussed and it was decided to increase the involvement of researchers and teachers in the community. To this end, there are plans to set up a forum-like structure that will be available to all eLabFTW users at Austrian universities. The focus would be on cross-domain exchange between users. The first implementation steps and another face-to-face meeting are planned for 2026.`,
       },
 
       invenio: {
         title: "InvenioRDM",
-        description:
-          "Members of the TU Graz and TU Wien joined the InvenioRDM partner workshop in Hamburg. It was a dynamic and collaborative event that drives the future of InvenioRDM. During the workshop, critical technical and strategic topics were discussed – from type hinting in Python and metadata extraction to improving the accessibility and usability of deposit forms. Our team will also participate in the implementation of type hinting and share the results with others. We were honoured that our contributions were highlighted in the final discussions, especially our curation workflow, which was cited as a source of inspiration by the community itself. We are happy to announce that the next InvenioRDM Partner Workshop will take place in Graz in 2026!",
-        readMoreUrl: "https://www.tuwien.at/en/all-news/news/inveniordm-community-workshop-2025",
+        description: `Over the past year, InvenioRDM (a repository solution) has seen steady progress at TU Wien and Graz University of Technology. A key factor in this development was the introduction of a structured curation workflow, implemented in February at TU Wien and in November at Graz University of Technology, which has contributed to consistently high data quality. 
+
+In September 2025, the TU Wien Research Data Repository was awarded the CoreTrustSeal certification. This recognition confirms the repository's status as a reliable, trustworthy, and user-friendly platfrom for the long-term management and sharing of reseach data.`,
+        readMoreUrl: "https://forschung-daten.at/en/shared-rdm/",
       },
 
       damap: {
         title: "DAMAP",
+        description: `The DAMAP cloud service was prepared, which included several test deployments on the ARI&Snet platform (in collaboration with the ARI&Snet project) for interested universities such as Central European University, BOKU University, and Vienna University of Economics and Business. These pilots provided valuable feedback, which is now directly informing the final preparations for the planned cloud release in the first quarter of 2026.
+Beyond technical work, the DAMAP team also contributed to the design of the RDA maDMP API, helping to align DAMAP with emerging international standards for machine-actionable data management plans. In addition, DAMAP was presented to the Finnish university community, where initial interest was expressed in potentially adopting the service.`,
+      },
+    },
+    useCases: {
+      title: "Use Cases Development",
+      description:
+        "The Use Cases developed within the Shared RDM project are developing further.",
+      items: [],
+    },
+
+    training: {
+      sectionTitle: "Training and Knowledge Transfer",
+
+      webinars: {
+        title: 'Webinar series "Research Data Management in Austria"',
         description:
-          "The DAMAP team participated in the 19th International Digital Curation Conference (IDCC) in The Hague from February 17–19, 2025. Over three days, they engaged in workshops, poster sessions, and lightning talks. Day one featured two workshops on community building around data practices and the lifecycle of data management plans, with a lightning talk by Valentin Futterer on how DAMAP supports data stewards. On day two, Andrés Tabima and Laura Thaci presented posters on DAMAP and OSTrails, sparking engaging discussions, particularly around machine-actionable DMPs. The final day offered insights through a series of lightning talks from across the data curation field. IDCC remains a key event for connecting with professionals and advancing best practices in data management.",
-        readMoreUrl: "https://www.tuwien.at/en/all-news/news/the-damap-team-at-the-idcc25",
+          "During the past six months, our webinar series brought together a broad audience from Austria and abroad, with two well-attended sessions offering insightful and informative discussions. All previous episodes can be found on YouTube. The topics were:",
+        repositoryUrl:
+          "https://repository.tugraz.at/communities/rdm-austria/records?q=&l=list&p=1&s=10&sort=newest",
+        youtubeUrl: "https://www.youtube.com/@rdm-austria",
+        topics: [
+          "Ethical aspects of human-participant research data collection and management: The open-source Ethiktool software (9th of December 2025)",
+          "Anonymization and pseudonymization in the social sciences – Practical strategies for responsible research data management (21st of January 2026)",
+        ],
       },
     },
 
     dissemination: {
       sectionTitle: "Dissemination Activities",
-
       webinars: {
         title: 'Webinar series "Research Data Management in Austria"',
         description:
-          "In the last half year, three webinars were conducted. Each of them was not only very informative, but also well visited by a broad audience from inside and outside of Austria. All previous episodes can be found on YouTube. The topics were:",
-        repositoryUrl: "https://repository.tugraz.at/communities/rdm-austria/records",
+          "During the past six months, our webinar series brought together a broad audience from Austria and abroad, with two well-attended sessions offering insightful and informative discussions. All previous episodes can be found on YouTube. The topics were:",
+        repositoryUrl:
+          "https://repository.tugraz.at/communities/rdm-austria/records?q=&l=list&p=1&s=10&sort=newest",
         youtubeUrl: "https://www.youtube.com/@rdm-austria",
         topics: [
-          "Austrian Micro Data Center in der Praxis (1st of April 2025)",
-          "Austrian NeuroCloud (14th of April 2025)",
-          "Accessibility of PDF documents (10th of June 2025)",
+          "Ethical aspects of human-participant research data collection and management: The open-source Ethiktool software (9th of December 2025)",
+          "Anonymization and pseudonymization in the social sciences – Practical strategies for responsible research data management (21st of January 2026)",
         ],
       },
-
       cheatSheets: {
         title: "Cheat Sheet Series",
         description:
-          "The Cheat Sheet Series was already introduced in our last newsletter. Now we would like to shift your focus on the still growing collection, that can be found on Phaidra. Cheat Sheets can be printed out and distributed but can also be made available digitally. They are available both in German and English. A free Public Domain Mark 1.0 licence has been selected so that the Cheat Sheets can be reused and edited as easily as possible. Make use of this resource and use and share them as you like!",
+          "The Cheat Sheet Series was already introduced in our last newsletter.",
         url: "https://phaidra.univie.ac.at/detail/o:2122994",
       },
-
       bibliothekskongress: {
         title: "Shared RDM @ Bibliothekskongress",
         description:
-          "The 2nd Austrian Library Congress took place in March in Vienna. Shared RDM was presented within this event. The presentation focussed on the one hand on giving an overview of the project. The second half of the presentation featured current communities and activities. The resources of this presentation can be viewed here:",
+          "The 2nd Austrian Library Congress took place in March in Vienna.",
         url: "https://opus4.kobv.de/opus4-bib-info/frontdoor/index/index/docId/19409",
+      },
+
+      CoRDI: {
+        title: "Shared RDM @ CORDI 2025",
+        description: `The second edition of the Conference on Research Data Infrastructure (CoRDI) brought together national and international experts from August 26–28, 2025, in Aachen. This NFDI conference, hosted at RWTH Aachen's lecture hall centre C.A.R.L., showcased a wide-ranging programme of keynotes, lectures, poster sessions, and a market of opportunities, all united under the theme of generating more knowledge through the effective use of research data.
+Shared RDM Services & Infrastructure had the honour of opening a sub session with a presentation on Framework Conditions for Shared Services in Austria. The talk attracted significant interest from the audience and demonstrated how collaborative infrastructures and harmonized approaches can strengthen research data management across institutions and disciplines. In addition, a complementary poster illustrated how Shared RDM is laying the foundation for a national ecosystem of shared services by balancing organizational, technical, and policy requirements, highlighting the potential of shared infrastructures to support sustainable and cross-institutional RDM practices.`,
+        url: "https://forschung-daten.at/en/article/shared-rdm-cordi-2025/",
+      },
+
+      opensciencefestival: {
+        title:
+          "Open Science Festival 2025:\nPoster Presentation from Shared RDM",
+        description: `On 8 and 9 September, the University of Vienna invited Austrian and international guests to an Open Science exchange. The Open Science Festival is a concept from the Netherlands, where the event has been held regularly since 2021. Three years ago, the TIB and Leibniz University Hannover jointly organised the first Open Science Festival in the German-speaking world. Others followed in Cologne, Mainz – and now in Vienna. We had the opportunity to present a poster with the first results of the Shared RDM survey [SB8.1]on the use of data stewards at Austrian universities. Posters of the partner project ARI&Snet, the overarching Cluster Forschungsdaten, and the EU project OSTrails were also on display at the exhibition.`,
+        url: "https://forschung-daten.at/en/shared-rdm/news-events/details/open-science-festival/",
+      },
+
+      projectmeeting: {
+        title: "Shared RDM meets OSTrails:\nProject Meeting 2025",
+        description: `The annual Shared RDM project meeting took place at Graz University of Technology on 23–24 September. The focus was on how universities can continue to collaborate sustainably even after the official end of the project. The meeting kicked off with an exciting presentation on the EU project OSTrails, which deals with the DAMAP tool, among other things. Connections to Shared RDM also became clear during the presentation.`,
+        url: "https://forschung-daten.at/en/shared-rdm/news-events/details/shared-rdm-project-meeting-2025/",
+      },
+      CFD: {
+        title: "Cluster Research+Data in a new guise",
+        description: `We are pleased to announce the relaunch of the website Cluster Forschung+Daten. As part of the website redesign, the cluster has also changed its name and is now called Cluster Research+Data. The new site provides comprehensive information on both current and completed projects, along with a wide range of resources and materials related to research data. In addition, the website has been redesigned with improved usability to make navigation and access to content easier and more intuitive.`,
+        url: "https://forschung-daten.at/en/",
       },
     },
   },
@@ -109,10 +150,9 @@ module.exports = {
   contact: {
     email: "contact.sharedrdm@mlist.tugraz.at",
     address: {
-      street: "Brockmanngasse 84",
+      street: "Münzgrabenstraße 36/ II",
       city: "8010 Graz",
     },
     subscribeUrl: "https://mlist.tugraz.at/mailman/listinfo/news.sharedrdm",
   },
 };
-

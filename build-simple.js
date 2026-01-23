@@ -41,7 +41,7 @@ function renderUseCases(items) {
          <div style="font: 12px Arial, Helvetica, sans-serif; color: #878787; margin-top: 5px;">
            <a href="${url}" target="_blank" style="color: #e74c3c; text-decoration: none;">READ MORE</a>
          </div>
-       </div>`
+       </div>`,
     );
   });
 
@@ -67,10 +67,10 @@ function renderWebinarImages(images) {
       .map(
         (src, idx) => `<tr>
           <td align="center" valign="top">
-            <img src="${escapeHtml(src)}" width="190" height="110" alt="Webinar ${idx + 1}" style="display: block; border-radius: 4px;"/>
+            <img src="${escapeHtml(src)}" width="250" height="auto" alt="Webinar ${idx + 1}" style="display: block; border-radius: 4px; max-width: 100%;"/>
           </td>
         </tr>
-        <tr><td height="15" align="center" valign="top">&nbsp;</td></tr>`
+        <tr><td height="15" align="center" valign="top">&nbsp;</td></tr>`,
       )
       .join("\n")}
   </table>`;
@@ -80,77 +80,300 @@ function buildNewsletter() {
   try {
     console.log("Building newsletter...");
 
-    // Load content (editable by non-devs)
-    // eslint-disable-next-line global-require, import/no-dynamic-require
     const dataPath = path.resolve(__dirname, "newsletter-data.js");
     delete require.cache[dataPath];
     const data = require(dataPath);
 
-    // Read template
     const templatePath = path.resolve(__dirname, "newsletter-template.html");
     let html = fs.readFileSync(templatePath, "utf8");
+    html = replaceAll(
+      html,
+      "{{newsletter.title}}",
+      mustGet(data, "newsletter.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{newsletter.subtitle}}",
+      mustGet(data, "newsletter.subtitle"),
+    );
+    html = replaceAll(
+      html,
+      "{{newsletter.year}}",
+      mustGet(data, "newsletter.year"),
+    );
+    html = replaceAll(
+      html,
+      "{{newsletter.projectPageUrl}}",
+      mustGet(data, "newsletter.projectPageUrl"),
+    );
+    html = replaceAll(
+      html,
+      "{{newsletter.clusterUrl}}",
+      mustGet(data, "newsletter.clusterUrl"),
+    );
+    html = replaceAll(
+      html,
+      "{{newsletter.projectDescription}}",
+      mustGet(data, "newsletter.projectDescription"),
+    );
 
-    // Basic placeholders
-    html = replaceAll(html, "{{newsletter.title}}", mustGet(data, "newsletter.title"));
-    html = replaceAll(html, "{{newsletter.subtitle}}", mustGet(data, "newsletter.subtitle"));
-    html = replaceAll(html, "{{newsletter.year}}", mustGet(data, "newsletter.year"));
-    html = replaceAll(html, "{{newsletter.projectPageUrl}}", mustGet(data, "newsletter.projectPageUrl"));
-    html = replaceAll(html, "{{newsletter.clusterUrl}}", mustGet(data, "newsletter.clusterUrl"));
-    html = replaceAll(html, "{{newsletter.projectDescription}}", mustGet(data, "newsletter.projectDescription"));
+    html = replaceAll(
+      html,
+      "{{images.sharedRdmLogo}}",
+      mustGet(data, "images.sharedRdmLogo"),
+    );
+    html = replaceAll(
+      html,
+      "{{images.clusterLogo}}",
+      mustGet(data, "images.clusterLogo"),
+    );
+    html = replaceAll(
+      html,
+      "{{images.bmbwfLogo}}",
+      mustGet(data, "images.bmbwfLogo"),
+    );
+    html = replaceAll(
+      html,
+      "{{images.fairaiImage}}",
+      mustGet(data, "images.fairaiImage"),
+    );
+    html = replaceAll(
+      html,
+      "{{images.cordiImage}}",
+      mustGet(data, "images.cordiImage"),
+    );
+    html = replaceAll(
+      html,
+      "{{images.opensciencefestivalImage}}",
+      mustGet(data, "images.opensciencefestivalImage"),
+    );
+    html = replaceAll(
+      html,
+      "{{images.projectmeetingImage}}",
+      mustGet(data, "images.projectmeetingImage"),
+    );
+    html = replaceAll(
+      html,
+      "{{images.websideImage}}",
+      mustGet(data, "images.websideImage"),
+    );
+    html = html
+      .split("{{{images.webinarImagesHtml}}}")
+      .join(renderWebinarImages(mustGet(data, "images.webinarImages")));
 
-    // Images
-    html = replaceAll(html, "{{images.sharedRdmLogo}}", mustGet(data, "images.sharedRdmLogo"));
-    html = replaceAll(html, "{{images.clusterLogo}}", mustGet(data, "images.clusterLogo"));
-    html = replaceAll(html, "{{images.bmbwfLogo}}", mustGet(data, "images.bmbwfLogo"));
-    html = replaceAll(html, "{{images.cheatSheetsImage}}", mustGet(data, "images.cheatSheetsImage"));
-    html = replaceAll(html, "{{images.bibliothekskongressImage}}", mustGet(data, "images.bibliothekskongressImage"));
+    const symposiumTitle = mustGet(data, "sections.symposium.title");
+    const symposiumTitleHtml = symposiumTitle.replace(/\n/g, "<br />");
+    html = html.split("{{sections.symposium.title}}").join(symposiumTitleHtml);
+    html = replaceAll(
+      html,
+      "{{sections.symposium.description}}",
+      mustGet(data, "sections.symposium.description"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.symposium.readMoreUrl}}",
+      mustGet(data, "sections.symposium.readMoreUrl"),
+    );
 
-    // Sections: Use Cases
-    html = replaceAll(html, "{{sections.useCases.title}}", mustGet(data, "sections.useCases.title"));
-    html = replaceAll(html, "{{sections.useCases.description}}", mustGet(data, "sections.useCases.description"));
-    html = html.split("{{{sections.useCases.itemsHtml}}}").join(renderUseCases(mustGet(data, "sections.useCases.items")));
+    html = replaceAll(
+      html,
+      "{{sections.communities.sectionTitle}}",
+      mustGet(data, "sections.communities.sectionTitle"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.communities.description}}",
+      mustGet(data, "sections.communities.description"),
+    );
 
-    // Sections: Communities
-    html = replaceAll(html, "{{sections.communities.sectionTitle}}", mustGet(data, "sections.communities.sectionTitle"));
-    html = replaceAll(html, "{{sections.communities.description}}", mustGet(data, "sections.communities.description"));
+    html = replaceAll(
+      html,
+      "{{sections.communities.eln.title}}",
+      mustGet(data, "sections.communities.eln.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.communities.eln.description}}",
+      mustGet(data, "sections.communities.eln.description"),
+    );
 
-    html = replaceAll(html, "{{sections.communities.eln.title}}", mustGet(data, "sections.communities.eln.title"));
-    html = replaceAll(html, "{{sections.communities.eln.description}}", mustGet(data, "sections.communities.eln.description"));
-    html = replaceAll(html, "{{sections.communities.eln.readMoreUrl}}", mustGet(data, "sections.communities.eln.readMoreUrl"));
+    html = replaceAll(
+      html,
+      "{{sections.communities.invenio.title}}",
+      mustGet(data, "sections.communities.invenio.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.communities.invenio.description}}",
+      mustGet(data, "sections.communities.invenio.description"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.communities.invenio.readMoreUrl}}",
+      mustGet(data, "sections.communities.invenio.readMoreUrl"),
+    );
 
-    html = replaceAll(html, "{{sections.communities.invenio.title}}", mustGet(data, "sections.communities.invenio.title"));
-    html = replaceAll(html, "{{sections.communities.invenio.description}}", mustGet(data, "sections.communities.invenio.description"));
-    html = replaceAll(html, "{{sections.communities.invenio.readMoreUrl}}", mustGet(data, "sections.communities.invenio.readMoreUrl"));
+    html = replaceAll(
+      html,
+      "{{sections.communities.damap.title}}",
+      mustGet(data, "sections.communities.damap.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.communities.damap.description}}",
+      mustGet(data, "sections.communities.damap.description"),
+    );
 
-    html = replaceAll(html, "{{sections.communities.damap.title}}", mustGet(data, "sections.communities.damap.title"));
-    html = replaceAll(html, "{{sections.communities.damap.description}}", mustGet(data, "sections.communities.damap.description"));
-    html = replaceAll(html, "{{sections.communities.damap.readMoreUrl}}", mustGet(data, "sections.communities.damap.readMoreUrl"));
+    html = replaceAll(
+      html,
+      "{{sections.training.sectionTitle}}",
+      mustGet(data, "sections.training.sectionTitle"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.training.webinars.title}}",
+      mustGet(data, "sections.training.webinars.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.training.webinars.description}}",
+      mustGet(data, "sections.training.webinars.description"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.training.webinars.repositoryUrl}}",
+      mustGet(data, "sections.training.webinars.repositoryUrl"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.training.webinars.youtubeUrl}}",
+      mustGet(data, "sections.training.webinars.youtubeUrl"),
+    );
+    html = html
+      .split("{{{sections.training.webinars.topicsHtml}}}")
+      .join(
+        renderWebinarTopics(mustGet(data, "sections.training.webinars.topics")),
+      );
 
-    // Sections: Dissemination
-    html = replaceAll(html, "{{sections.dissemination.sectionTitle}}", mustGet(data, "sections.dissemination.sectionTitle"));
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.sectionTitle}}",
+      mustGet(data, "sections.dissemination.sectionTitle"),
+    );
 
-    html = replaceAll(html, "{{sections.dissemination.webinars.title}}", mustGet(data, "sections.dissemination.webinars.title"));
-    html = replaceAll(html, "{{sections.dissemination.webinars.description}}", mustGet(data, "sections.dissemination.webinars.description"));
-    html = replaceAll(html, "{{sections.dissemination.webinars.repositoryUrl}}", mustGet(data, "sections.dissemination.webinars.repositoryUrl"));
-    html = replaceAll(html, "{{sections.dissemination.webinars.youtubeUrl}}", mustGet(data, "sections.dissemination.webinars.youtubeUrl"));
-    html = html.split("{{{sections.dissemination.webinars.topicsHtml}}}").join(renderWebinarTopics(mustGet(data, "sections.dissemination.webinars.topics")));
-    html = html.split("{{{images.webinarImagesHtml}}}").join(renderWebinarImages(mustGet(data, "images.webinarImages")));
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.webinars.title}}",
+      mustGet(data, "sections.dissemination.webinars.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.webinars.description}}",
+      mustGet(data, "sections.dissemination.webinars.description"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.webinars.repositoryUrl}}",
+      mustGet(data, "sections.dissemination.webinars.repositoryUrl"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.webinars.youtubeUrl}}",
+      mustGet(data, "sections.dissemination.webinars.youtubeUrl"),
+    );
+    html = html
+      .split("{{{sections.dissemination.webinars.topicsHtml}}}")
+      .join(
+        renderWebinarTopics(
+          mustGet(data, "sections.dissemination.webinars.topics"),
+        ),
+      );
 
-    html = replaceAll(html, "{{sections.dissemination.cheatSheets.title}}", mustGet(data, "sections.dissemination.cheatSheets.title"));
-    html = replaceAll(html, "{{sections.dissemination.cheatSheets.description}}", mustGet(data, "sections.dissemination.cheatSheets.description"));
-    html = replaceAll(html, "{{sections.dissemination.cheatSheets.url}}", mustGet(data, "sections.dissemination.cheatSheets.url"));
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.CoRDI.title}}",
+      mustGet(data, "sections.dissemination.CoRDI.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.CoRDI.description}}",
+      mustGet(data, "sections.dissemination.CoRDI.description"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.CoRDI.url}}",
+      mustGet(data, "sections.dissemination.CoRDI.url"),
+    );
 
-    html = replaceAll(html, "{{sections.dissemination.bibliothekskongress.title}}", mustGet(data, "sections.dissemination.bibliothekskongress.title"));
-    html = replaceAll(html, "{{sections.dissemination.bibliothekskongress.description}}", mustGet(data, "sections.dissemination.bibliothekskongress.description"));
-    html = replaceAll(html, "{{sections.dissemination.bibliothekskongress.url}}", mustGet(data, "sections.dissemination.bibliothekskongress.url"));
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.opensciencefestival.title}}",
+      mustGet(data, "sections.dissemination.opensciencefestival.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.opensciencefestival.description}}",
+      mustGet(data, "sections.dissemination.opensciencefestival.description"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.opensciencefestival.url}}",
+      mustGet(data, "sections.dissemination.opensciencefestival.url"),
+    );
 
-    // Contact
-    html = replaceAll(html, "{{contact.email}}", mustGet(data, "contact.email"));
-    html = replaceAll(html, "{{contact.address.street}}", mustGet(data, "contact.address.street"));
-    html = replaceAll(html, "{{contact.address.city}}", mustGet(data, "contact.address.city"));
-    html = replaceAll(html, "{{contact.subscribeUrl}}", mustGet(data, "contact.subscribeUrl"));
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.projectmeeting.title}}",
+      mustGet(data, "sections.dissemination.projectmeeting.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.projectmeeting.description}}",
+      mustGet(data, "sections.dissemination.projectmeeting.description"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.projectmeeting.url}}",
+      mustGet(data, "sections.dissemination.projectmeeting.url"),
+    );
 
-    // Write output
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.CFD.title}}",
+      mustGet(data, "sections.dissemination.CFD.title"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.CFD.description}}",
+      mustGet(data, "sections.dissemination.CFD.description"),
+    );
+    html = replaceAll(
+      html,
+      "{{sections.dissemination.CFD.url}}",
+      mustGet(data, "sections.dissemination.CFD.url"),
+    );
+
+    html = replaceAll(
+      html,
+      "{{contact.email}}",
+      mustGet(data, "contact.email"),
+    );
+    html = replaceAll(
+      html,
+      "{{contact.address.street}}",
+      mustGet(data, "contact.address.street"),
+    );
+    html = replaceAll(
+      html,
+      "{{contact.address.city}}",
+      mustGet(data, "contact.address.city"),
+    );
+    html = replaceAll(
+      html,
+      "{{contact.subscribeUrl}}",
+      mustGet(data, "contact.subscribeUrl"),
+    );
+
     fs.writeFileSync(path.resolve(__dirname, "index.html"), html);
     console.log("Newsletter built successfully!");
     console.log("Output: index.html");
