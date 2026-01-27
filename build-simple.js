@@ -25,6 +25,35 @@ function replaceAll(html, token, value) {
   return html.split(token).join(safe);
 }
 
+function replaceAllUnsafe(html, token, value) {
+  return html.split(token).join(value);
+}
+
+function imageToDataUri(imagePath) {
+  try {
+    const fullPath = path.resolve(__dirname, imagePath);
+    if (!fs.existsSync(fullPath)) {
+      console.warn(`Warning: Image not found: ${imagePath}`);
+      return imagePath;
+    }
+    const imageBuffer = fs.readFileSync(fullPath);
+    const ext = path.extname(imagePath).toLowerCase();
+    let mimeType = "image/png";
+    if (ext === ".jpg" || ext === ".jpeg") {
+      mimeType = "image/jpeg";
+    } else if (ext === ".png") {
+      mimeType = "image/png";
+    } else if (ext === ".gif") {
+      mimeType = "image/gif";
+    }
+    const base64 = imageBuffer.toString("base64");
+    return `data:${mimeType};base64,${base64}`;
+  } catch (error) {
+    console.warn(`Warning: Could not convert image ${imagePath}:`, error.message);
+    return imagePath;
+  }
+}
+
 function renderUseCases(items) {
   if (!Array.isArray(items)) return "";
   const left = [];
@@ -67,7 +96,7 @@ function renderWebinarImages(images) {
       .map(
         (src, idx) => `<tr>
           <td align="center" valign="top">
-            <img src="${escapeHtml(src)}" width="250" height="auto" alt="Webinar ${idx + 1}" style="display: block; border-radius: 4px; max-width: 100%;"/>
+            <img src="${src}" width="250" height="auto" alt="Webinar ${idx + 1}" style="display: block; border-radius: 4px; max-width: 100%;"/>
           </td>
         </tr>
         <tr><td height="15" align="center" valign="top">&nbsp;</td></tr>`,
@@ -117,49 +146,53 @@ function buildNewsletter() {
       mustGet(data, "newsletter.projectDescription"),
     );
 
-    html = replaceAll(
+    html = replaceAllUnsafe(
       html,
       "{{images.sharedRdmLogo}}",
-      mustGet(data, "images.sharedRdmLogo"),
+      imageToDataUri(mustGet(data, "images.sharedRdmLogo")),
     );
-    html = replaceAll(
+    html = replaceAllUnsafe(
       html,
       "{{images.clusterLogo}}",
-      mustGet(data, "images.clusterLogo"),
+      imageToDataUri(mustGet(data, "images.clusterLogo")),
     );
-    html = replaceAll(
+    html = replaceAllUnsafe(
       html,
       "{{images.bmbwfLogo}}",
-      mustGet(data, "images.bmbwfLogo"),
+      imageToDataUri(mustGet(data, "images.bmbwfLogo")),
     );
-    html = replaceAll(
+    html = replaceAllUnsafe(
       html,
       "{{images.fairaiImage}}",
-      mustGet(data, "images.fairaiImage"),
+      imageToDataUri(mustGet(data, "images.fairaiImage")),
     );
-    html = replaceAll(
+    html = replaceAllUnsafe(
       html,
       "{{images.cordiImage}}",
-      mustGet(data, "images.cordiImage"),
+      imageToDataUri(mustGet(data, "images.cordiImage")),
     );
-    html = replaceAll(
+    html = replaceAllUnsafe(
       html,
       "{{images.opensciencefestivalImage}}",
-      mustGet(data, "images.opensciencefestivalImage"),
+      imageToDataUri(mustGet(data, "images.opensciencefestivalImage")),
     );
-    html = replaceAll(
+    html = replaceAllUnsafe(
       html,
       "{{images.projectmeetingImage}}",
-      mustGet(data, "images.projectmeetingImage"),
+      imageToDataUri(mustGet(data, "images.projectmeetingImage")),
     );
-    html = replaceAll(
+    html = replaceAllUnsafe(
       html,
       "{{images.websideImage}}",
-      mustGet(data, "images.websideImage"),
+      imageToDataUri(mustGet(data, "images.websideImage")),
+    );
+    const webinarImages = mustGet(data, "images.webinarImages");
+    const webinarImagesWithDataUri = webinarImages.map((img) =>
+      imageToDataUri(img),
     );
     html = html
       .split("{{{images.webinarImagesHtml}}}")
-      .join(renderWebinarImages(mustGet(data, "images.webinarImages")));
+      .join(renderWebinarImages(webinarImagesWithDataUri));
 
     const symposiumTitle = mustGet(data, "sections.symposium.title");
     const symposiumTitleHtml = symposiumTitle.replace(/\n/g, "<br />");
@@ -206,11 +239,6 @@ function buildNewsletter() {
       html,
       "{{sections.communities.invenio.description}}",
       mustGet(data, "sections.communities.invenio.description"),
-    );
-    html = replaceAll(
-      html,
-      "{{sections.communities.invenio.readMoreUrl}}",
-      mustGet(data, "sections.communities.invenio.readMoreUrl"),
     );
 
     html = replaceAll(
